@@ -1,0 +1,1963 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Team 2 Pathfinding API",
+		"_postman_id": "1561e3a1-d697-5966-53d9-6e45cf98b5af",
+		"description": "Calculates minimum path between points depending on user generated map input.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Problem",
+			"description": "Adding and deleting a problem. Checks for default values",
+			"item": [
+				{
+					"name": "Creates a new problem and returns a problemID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"",
+									"postman.setEnvironmentVariable(\"uid1\", jsonData.uid);",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);",
+									"",
+									"tests[\"Returned a problemid number\"] = postman.getEnvironmentVariable(\"uid1\") > 0 ;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"",
+									"tests[\"Default has a boundary\"] = responseBody.has(\"boundary\");",
+									"tests[\"Default has obstacles\"] = responseBody.has(\"obstacles\");",
+									"tests[\"Default has a goal\"] = responseBody.has(\"goal\");",
+									"tests[\"Default has a problem_id\"] = responseBody.has(\"problem_id\");",
+									"tests[\"Default has robots\"] = responseBody.has(\"robots\");",
+									"tests[\"Default has a uid\"] = responseBody.has(\"uid\");",
+									"",
+									"//checking boundary defaults",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"//tests[\"Default boundary height\"] = jsonData.boundary.boundary_info.height === 0;",
+									"//tests[\"Default boundary width\"] = jsonData.boundary.boundary_info.width === 0;",
+									"",
+									"//check goal defaults",
+									"tests[\"Default goal latitude\"] = jsonData.goal.coordinates.latitude === 0;",
+									"tests[\"Default goal longitude\"] = jsonData.goal.coordinates.longitude === 0;",
+									"",
+									"//check obstacle defaults",
+									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].longitude === 0;",
+									"//tests[\"Default obstacle height\"] = jsonData.obstacles[0].obstacle_info.height === 0;",
+									"//tests[\"Default obstacle width\"] = jsonData.obstacles[0].obstacle_info.width === 0;",
+									"",
+									"//check robots defaults",
+									"tests[\"Default robot latitude\"] = jsonData.robots[0].coordinates.latitude === 0;",
+									"tests[\"Default robot longitude\"] = jsonData.robots[0].coordinates.longitude === 0;",
+									"tests[\"Default robot id\"] = jsonData.robots[0].id === 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Creates a new problem and returns a problemID copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"",
+									"postman.setEnvironmentVariable(\"uid2\", jsonData.uid);",
+									"postman.setEnvironmentVariable(\"version2\", jsonData.version);",
+									"",
+									"tests[\"Returned a problemid number\"] = postman.getEnvironmentVariable(\"uid2\") > 0 ;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Problems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"//check version number",
+									"tests[\"Default version\"] = jsonData.version === 0;",
+									"",
+									"//check uid",
+									"tests[\"Check uid\"] = jsonData.uid == environment.uid1;",
+									"",
+									"//check problem_id",
+									"tests[\"Check problem_id\"] = jsonData.problem_id == environment.uid1;",
+									"",
+									"//checking boundary defaults",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"",
+									"//check goal defaults",
+									"tests[\"Default goal latitude\"] = jsonData.goal.coordinates.latitude === 0;",
+									"tests[\"Default goal longitude\"] = jsonData.goal.coordinates.longitude === 0;",
+									"",
+									"//check obstacle defaults",
+									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].longitude === 0;",
+									"",
+									"",
+									"//check robots defaults",
+									"tests[\"Default robot latitude\"] = jsonData.robots[0].coordinates.latitude === 0;",
+									"tests[\"Default robot longitude\"] = jsonData.robots[0].coordinates.longitude === 0;",
+									"tests[\"Default robot id\"] = jsonData.robots[0].id === 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a specific problem\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Successfully Deleted Message\"] = jsonData.Message === \"Successfully Deleted\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/ver={{version1}}/",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "This removes the problem by the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Problem deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a specific problem\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Boundary",
+			"description": "adds and deletes a boundary. Checks initally for defaults then edits the boundary and checks for edits",
+			"item": [
+				{
+					"name": "Boundary delete uid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Boundary",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the boundary"
+					},
+					"response": []
+				},
+				{
+					"name": "Boundary defaults",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"//check defaults",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"",
+									"//check version",
+									"tests[\"Default version\"] = jsonData.version == environment.version1;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Boundary",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the boundary"
+					},
+					"response": []
+				},
+				{
+					"name": "Update the deleted problem id boundary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Boundary/ver={{version2}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing boundary value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Boundary/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 100,\r\n      \"longitude\": 100\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing boundary with bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 409\"] = responseCode.code === 409;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Boundary/ver={{version2}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 200,\r\n      \"longitude\": 200\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Boundary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"//check updates stuck",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 100;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 100;",
+									"tests[\"Version Check\"] = jsonData.version == environment.version1;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Boundary",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the boundary"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Obstacles",
+			"description": "Add, update, and delete obstacles and verify all request were successfull",
+			"item": [
+				{
+					"name": "Obstacles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"/*[",
+									"  {",
+									"    \"obstacle_id\": 0,",
+									"    \"obstacle_info\": {",
+									"      \"coordinates\": {",
+									"        \"latitude\": 0,",
+									"        \"longitude\": 0",
+									"      },",
+									"      \"height\": 0,",
+									"      \"width\": 0",
+									"    }",
+									"  }",
+									"]*/",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"//check for default obstacle",
+									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
+									"",
+									"//check version",
+									"tests[\"Check version\"] = jsonData.version == environment.version1;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a list of all of the obstacles in the problem. This can be an empty list.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacles deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Obstacles",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a list of all of the obstacles in the problem. This can be an empty list.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new obstacle to deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"obj1\", 1);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Obstacles/ver={{version2}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new obstacle1 to the list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"obj1\", 1);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version1}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 20,\r\n      \"longitude\": 20\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new obstacle2 to the list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"obj2\", 2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version1}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 80,\r\n      \"longitude\": 80\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new obstacle with bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 409\"] = responseCode.code === 409;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version2}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Obstacle2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}/ver={{version1}}/",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "This removes the obstacle by the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacles verify in list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"/*[",
+									"  {",
+									"    \"obstacle_id\": 0,",
+									"    \"obstacle_info\": [",
+									"      {",
+									"        \"latitude\": 0,",
+									"        \"longitude\": 0",
+									"      }",
+									"    ]",
+									"  }",
+									"]*/",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"//check for default obstacle",
+									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 20;",
+									"",
+									"//make sure only one obstacle is in the list",
+									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a list of all of the obstacles in the problem. This can be an empty list.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacle1 Specific",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info[0].latitude === 20;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns an obstacle\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacle1 Specific Deleted Problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Obstacles/obstacle_id={{obj2}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns an obstacle\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacle Specific deleted obstacle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns an obstacle\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing obstacle1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 30,\r\n      \"longitude\": 30\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing obstacle1 bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 409\"] = responseCode.code === 409;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}/ver={{version2}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 50,\r\n      \"longitude\": 50\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update an nonexisting obstacle2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 40,\r\n      \"longitude\": 40\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing obstacle1 deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Obstacles/obstacle_id={{obj1}}/ver={{version2}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 60,\r\n      \"longitude\": 60\r\n    }\r\n  ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacle1 Specific",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"",
+									"//check updates",
+									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info[0].latitude == 30;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info[0].latitude == 30;",
+									"",
+									"//check version",
+									"tests[\"Version check\"] = jsonData.version == environment.version1;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns an obstacle\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Obstacles verify in list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"/*[",
+									"  {",
+									"    \"obstacle_id\": 0,",
+									"    \"obstacle_info\": {",
+									"      \"coordinates\": {",
+									"        \"latitude\": 0,",
+									"        \"longitude\": 0",
+									"      },",
+									"      \"height\": 0,",
+									"      \"width\": 0",
+									"    }",
+									"  }",
+									"]*/",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"//check for default obstacle",
+									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 30;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 30;",
+									"",
+									"//make sure only one obstacle is in the list",
+									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Obstacles",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a list of all of the obstacles in the problem. This can be an empty list.\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Robot",
+			"description": "add, update and delete robots and verify server operation",
+			"item": [
+				{
+					"name": "Robot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new robot1 to the list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"rid1\", 1);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/ver={{version1}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 25,\n    \"longitude\": 30\n  },\n  \"id\": {{rid1}}\n}\n \n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing robot1 value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  },\r\n  \"id\": {{rid1}}\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a robot1 by the ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing robot1 value bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  },\r\n  \"id\": {{rid1}}\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Robots verify in list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new robot2 to the list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"rid2\", 2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/ver={{version1}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 25,\n    \"longitude\": 30\n  },\n  \"id\": {{rid2}}\n}\n \n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a robot1 by the ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing robot2 value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  },\r\n  \"id\": {{rid2}}\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a robot2 by the ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Robots verify in list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new robot with bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 409\"] = responseCode.code === 409;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"rid3\", 3);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/ver={{version2}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 25,\n    \"longitude\": 30\n  },\n  \"id\": {{rid3}}\n}\n \n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Robot2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "This removes the robot by the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Deleted robot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Robot2 again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "This removes the robot by the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Robots verify in list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new robot to deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Robot/ver={{version2}}/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 25,\n    \"longitude\": 30\n  },\n  \"id\": {{rid2}}\n}\n \n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Robot deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the robots, including the current location\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a robot1 by the ID in deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing robot1 value in delete problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  },\r\n  \"id\": {{rid1}}\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Goal",
+			"description": "add and update goal to test server functionality",
+			"item": [
+				{
+					"name": "Goal Location defaults",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"",
+									"tests[\"Default has a coordinate\"] = responseBody.has(\"coordinates\");",
+									"tests[\"Default has a latitude\"] = responseBody.has(\"latitude\");",
+									"tests[\"Default has a longitude\"] = responseBody.has(\"longitude\");",
+									"tests[\"Default has a verion\"] = responseBody.has(\"version\");",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"goal_lat1\", jsonData.goal.coordinates.latitude);",
+									"postman.setEnvironmentVariable(\"goal_long1\", jsonData.goal.coordinates.longitude);",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);",
+									"",
+									"",
+									"tests[\"Returned default latitude\"] = postman.getEnvironmentVariable(\"goal_lat1\") === 0 ;",
+									"tests[\"Returned default longitude\"] = postman.getEnvironmentVariable(\"goal_long1\") === 0 ;",
+									"tests[\"Returned version\"] = postman.getEnvironmentVariable(\"version1\") == environment.version1;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Goal",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the goal location.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing goal value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Goal/ver={{version1}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 1,\n    \"longitude\": 2\n  }\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Goal Location updated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Goal",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the goal location.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update the existing goal value bad version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 409\"] = responseCode.code === 409;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Goal/ver={{version2}}/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  }\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Path",
+			"description": "Verify a Path is return. Does not check for optimal path",
+			"item": [
+				{
+					"name": "Path deleted problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid2}}/Path",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the path from the robot's current location to the goal."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
