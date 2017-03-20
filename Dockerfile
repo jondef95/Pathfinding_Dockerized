@@ -9,4 +9,6 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install Flask-API
 RUN ./replaceIP.sh
-RUN python3 -m swagger_server
+#RUN python3 -m swagger_server
+ENTRYPOINT ["python3"]
+CMD ["-m", "swagger_server"]
