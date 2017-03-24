@@ -19,12 +19,12 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"",
-									"postman.setEnvironmentVariable(\"uid1\", jsonData.uid);",
+									"postman.setEnvironmentVariable(\"uid1\", jsonData.problem_id);",
 									"postman.setEnvironmentVariable(\"version1\", jsonData.version);",
 									"",
 									"tests[\"Returned a problemid number\"] = postman.getEnvironmentVariable(\"uid1\") > 0 ;",
@@ -39,11 +39,11 @@
 									"tests[\"Default has a goal\"] = responseBody.has(\"goal\");",
 									"tests[\"Default has a problem_id\"] = responseBody.has(\"problem_id\");",
 									"tests[\"Default has robots\"] = responseBody.has(\"robots\");",
-									"tests[\"Default has a uid\"] = responseBody.has(\"uid\");",
+									"tests[\"Default has a uid\"] = responseBody.has(\"problem_id\");",
 									"",
 									"//checking boundary defaults",
-									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
-									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info.coordinates[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info.coordinates[0].longitude === 0;",
 									"//tests[\"Default boundary height\"] = jsonData.boundary.boundary_info.height === 0;",
 									"//tests[\"Default boundary width\"] = jsonData.boundary.boundary_info.width === 0;",
 									"",
@@ -53,8 +53,8 @@
 									"",
 									"//check obstacle defaults",
 									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
-									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
-									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].longitude === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].longitude === 0;",
 									"//tests[\"Default obstacle height\"] = jsonData.obstacles[0].obstacle_info.height === 0;",
 									"//tests[\"Default obstacle width\"] = jsonData.obstacles[0].obstacle_info.width === 0;",
 									"",
@@ -92,12 +92,12 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"",
-									"postman.setEnvironmentVariable(\"uid2\", jsonData.uid);",
+									"postman.setEnvironmentVariable(\"uid2\", jsonData.problem_id);",
 									"postman.setEnvironmentVariable(\"version2\", jsonData.version);",
 									"",
 									"tests[\"Returned a problemid number\"] = postman.getEnvironmentVariable(\"uid2\") > 0 ;",
@@ -144,18 +144,16 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"//check version number",
-									"tests[\"Default version\"] = jsonData.version === 0;",
 									"",
 									"//check uid",
-									"tests[\"Check uid\"] = jsonData.uid == environment.uid1;",
+									"tests[\"Check uid\"] = jsonData.problem_id == environment.uid1;",
 									"",
 									"//check problem_id",
 									"tests[\"Check problem_id\"] = jsonData.problem_id == environment.uid1;",
 									"",
 									"//checking boundary defaults",
-									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
-									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info.coordinates[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info.coordinates[0].longitude === 0;",
 									"",
 									"//check goal defaults",
 									"tests[\"Default goal latitude\"] = jsonData.goal.coordinates.latitude === 0;",
@@ -163,8 +161,8 @@
 									"",
 									"//check obstacle defaults",
 									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
-									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
-									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].longitude === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].longitude === 0;",
 									"",
 									"",
 									"//check robots defaults",
@@ -199,13 +197,13 @@
 									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
 									"",
 									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successfully Deleted Message\"] = jsonData.Message === \"Successfully Deleted\";"
+									"tests[\"Successfully Deleted Message\"] = jsonData.response === \"successfully deleted\";"
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid2}}/",
 						"method": "DELETE",
 						"header": [
 							{
@@ -301,8 +299,8 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"//check defaults",
-									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 0;",
-									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 0;",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary_info.coordinates[0].latitude === 0;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary_info.coordinates[0].longitude === 0;",
 									"",
 									"//check version",
 									"tests[\"Default version\"] = jsonData.version == environment.version1;",
@@ -332,7 +330,7 @@
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/problem+json\";",
 									""
 								]
 							}
@@ -378,7 +376,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Boundary/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Boundary",
 						"method": "PUT",
 						"header": [
 							{
@@ -390,43 +388,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 100,\r\n      \"longitude\": 100\r\n    }\r\n  ]\r\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Update the existing boundary with bad version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 409\"] = responseCode.code === 409;",
-									"",
-									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
-									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{url}}/id={{uid1}}/Boundary/ver={{version2}}/",
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 200,\r\n      \"longitude\": 200\r\n    }\r\n  ]\r\n}"
 						},
 						"description": ""
 					},
@@ -448,8 +409,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"//check updates stuck",
-									"tests[\"Default boundary latitude\"] = jsonData.boundary.boundary_info[0].latitude === 100;",
-									"tests[\"Default boundary longitude\"] = jsonData.boundary.boundary_info[0].longitude === 100;",
+									"tests[\"Default boundary latitude\"] = jsonData.boundary_info[0].latitude === 100;",
+									"tests[\"Default boundary longitude\"] = jsonData.boundary_info[0].longitude === 100;",
 									"tests[\"Version Check\"] = jsonData.version == environment.version1;",
 									"",
 									""
@@ -503,8 +464,8 @@
 									"",
 									"//check for default obstacle",
 									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
-									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
-									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info[0].latitude === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData[0].obstacle_info.coordinates[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData[0].obstacle_info.coordinates[0].longitude === 0;",
 									"",
 									"//check version",
 									"tests[\"Check version\"] = jsonData.version == environment.version1;",
@@ -578,7 +539,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid2}}/Obstacles/ver={{version2}}/",
+						"url": "{{url}}/id={{uid2}}/Obstacles",
 						"method": "POST",
 						"header": [
 							{
@@ -589,7 +550,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 0,\r\n        \"longitude\": 0\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -609,9 +570,7 @@
 									"",
 									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
 									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+									""
 								]
 							}
 						},
@@ -626,7 +585,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles",
 						"method": "POST",
 						"header": [
 							{
@@ -637,7 +596,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 20,\r\n      \"longitude\": 20\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 20,\r\n        \"longitude\": 20\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -656,10 +615,7 @@
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
 									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+									""
 								]
 							}
 						},
@@ -674,7 +630,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles",
 						"method": "POST",
 						"header": [
 							{
@@ -685,44 +641,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 80,\r\n      \"longitude\": 80\r\n    }\r\n  ]\r\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Add a new obstacle with bad version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 409\"] = responseCode.code === 409;",
-									"",
-									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
-									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/ver={{version2}}/",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 80,\r\n        \"longitude\": 80\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -740,17 +659,14 @@
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/problem+json\";",
+									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}",
 						"method": "DELETE",
 						"header": [],
 						"body": {},
@@ -786,9 +702,9 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"//check for default obstacle",
-									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 20;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 20;",
+									"tests[\"Check obstacle id\"] = jsonData[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData[1].obstacle_info.coordinates[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData[1].obstacle_info.coordinates[0].longitude === 20;",
 									"",
 									"//make sure only one obstacle is in the list",
 									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
@@ -823,9 +739,9 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info[0].latitude === 20;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info[0].latitude === 20;"
+									"tests[\"Check obstacle id\"] = jsonData.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle_info.coordinates[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle_info.coordinates[0].longitude === 20;"
 								]
 							}
 						}
@@ -904,16 +820,13 @@
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
 									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -924,7 +837,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 30,\r\n      \"longitude\": 30\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 30,\r\n        \"longitude\": 30\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -948,7 +861,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}/ver={{version2}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -959,7 +872,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 50,\r\n      \"longitude\": 50\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 50\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -983,7 +896,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj2}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -994,7 +907,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 40,\r\n      \"longitude\": 40\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 40\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -1018,7 +931,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid2}}/Obstacles/obstacle_id={{obj1}}/ver={{version2}}/",
+						"url": "{{url}}/id={{uid2}}/Obstacles/obstacle_id={{obj1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -1029,7 +942,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": [\r\n    {\r\n      \"latitude\": 60,\r\n      \"longitude\": 60\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 60,\r\n        \"longitude\": 60\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -1053,12 +966,10 @@
 									"",
 									"",
 									"//check updates",
-									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info[0].latitude == 30;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info[0].latitude == 30;",
-									"",
-									"//check version",
-									"tests[\"Version check\"] = jsonData.version == environment.version1;"
+									"tests[\"Check obstacle id\"] = jsonData.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle_info.coordinates[0].latitude == 30;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle_info.coordinates[0].longitude == 30;",
+									""
 								]
 							}
 						}
@@ -1103,12 +1014,12 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"//check for default obstacle",
-									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 30;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info[0].latitude === 30;",
+									"tests[\"Check obstacle id\"] = jsonData[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData[1].obstacle_info.coordinates[0].latitude === 30;",
+									"tests[\"Check obstacle longitude\"] = jsonData[1].obstacle_info.coordinates[0].longitude === 30;",
 									"",
 									"//make sure only one obstacle is in the list",
-									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
+									"tests[\"Two Obstacles exist\"] = jsonData.length == 2;",
 									""
 								]
 							}
@@ -1167,10 +1078,7 @@
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"postman.setEnvironmentVariable(\"version1\", jsonData.version);"
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
 								]
 							}
 						},
@@ -1185,7 +1093,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot",
 						"method": "POST",
 						"header": [
 							{
@@ -1224,7 +1132,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -1289,7 +1197,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -1362,7 +1270,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot",
 						"method": "POST",
 						"header": [
 							{
@@ -1427,7 +1335,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -1497,50 +1405,6 @@
 					"response": []
 				},
 				{
-					"name": "Add a new robot with bad version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 409\"] = responseCode.code === 409;",
-									"",
-									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
-									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"postman.setEnvironmentVariable(\"rid3\", 3);"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/ver={{version2}}/",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"coordinates\": {\n    \"latitude\": 25,\n    \"longitude\": 30\n  },\n  \"id\": {{rid3}}\n}\n \n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
 					"name": "Delete Robot2",
 					"event": [
 						{
@@ -1561,7 +1425,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}",
 						"method": "DELETE",
 						"header": [],
 						"body": {},
@@ -1613,7 +1477,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid2}}",
 						"method": "DELETE",
 						"header": [],
 						"body": {},
@@ -1665,7 +1529,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid2}}/Robot/ver={{version2}}/",
+						"url": "{{url}}/id={{uid2}}/Robot",
 						"method": "POST",
 						"header": [
 							{
@@ -1756,7 +1620,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Robot/rid={{rid1}}",
 						"method": "PUT",
 						"header": [
 							{
@@ -1797,7 +1661,6 @@
 									"tests[\"Default has a coordinate\"] = responseBody.has(\"coordinates\");",
 									"tests[\"Default has a latitude\"] = responseBody.has(\"latitude\");",
 									"tests[\"Default has a longitude\"] = responseBody.has(\"longitude\");",
-									"tests[\"Default has a verion\"] = responseBody.has(\"version\");",
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"goal_lat1\", jsonData.goal.coordinates.latitude);",
@@ -1846,7 +1709,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid1}}/Goal/ver={{version1}}/",
+						"url": "{{url}}/id={{uid1}}/Goal",
 						"method": "PUT",
 						"header": [
 							{
@@ -1888,42 +1751,6 @@
 						"description": "Returns a description of the goal location.\n"
 					},
 					"response": []
-				},
-				{
-					"name": "Update the existing goal value bad version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 409\"] = responseCode.code === 409;",
-									"",
-									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
-									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{url}}/id={{uid1}}/Goal/ver={{version2}}/",
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"coordinates\": {\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  }\r\n}"
-						},
-						"description": ""
-					},
-					"response": []
 				}
 			]
 		},
@@ -1950,6 +1777,36 @@
 					],
 					"request": {
 						"url": "{{url}}/id={{uid2}}/Path",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Returns a description of the path from the robot's current location to the goal."
+					},
+					"response": []
+				},
+				{
+					"name": "Path problem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"Path Exist\"] = jsonData.coordinates.length > 1;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/id={{uid1}}/Path",
 						"method": "GET",
 						"header": [],
 						"body": {},
