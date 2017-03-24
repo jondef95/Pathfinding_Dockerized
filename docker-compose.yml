@@ -1,7 +1,10 @@
-version: '2'
+version: '2.1'
 services:
     pathfinding:
         build: .
         ports:
         - "8082:8080"
-        
+    storage:
+        build: .
+        ports:
+        - "8083:8080"
