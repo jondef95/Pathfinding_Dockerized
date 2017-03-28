@@ -1,7 +1,10 @@
-version: '2'
+version: '3'
 services:
     pathfinding:
         build: .
+        image: "jth2279/pathfinding_dockerized"
+        container_name: pathfinder
+        expose:
+          - 8082
         ports:
-        - "8080:8080"
-        
+          - "8082:8082"
