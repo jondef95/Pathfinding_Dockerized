@@ -348,7 +348,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"boundary_info\": [\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 0\r\n    },\r\n    {\r\n      \"latitude\": 90,\r\n      \"longitude\": 0\r\n    },\r\n    {\r\n      \"latitude\": 90,\r\n      \"longitude\": 90\r\n    },\r\n    {\r\n      \"latitude\": 0,\r\n      \"longitude\": 90\r\n    }\r\n  ]\r\n}"
+							"raw": "{\r\n  \"boundary_info\": [\r\n{\r\n            \"latitude\": 37.232142,\r\n            \"longitude\": -80.429057\r\n          },\r\n          {\r\n            \"latitude\": 37.232625,\r\n            \"longitude\": -80.415979\r\n          },\r\n          {\r\n            \"latitude\": 37.225463,\r\n            \"longitude\": -80.425912\r\n          },\r\n          {\r\n            \"latitude\": 37.226972,\r\n            \"longitude\": -80.411656\r\n          }\r\n  ]\r\n}"
 						},
 						"description": ""
 					},
