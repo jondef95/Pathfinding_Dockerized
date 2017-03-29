@@ -556,7 +556,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n            \"latitude\": 37.224463,\r\n            \"longitude\": -80.424912\r\n          },\r\n          {\r\n            \"latitude\": 37.224463,\r\n            \"longitude\": -80.423912\r\n          },\r\n          {\r\n            \"latitude\": 37.223463,\r\n            \"longitude\": -80.423912\r\n          },\r\n          {\r\n            \"latitude\": 37.223463,\r\n            \"longitude\": -80.424912\r\n          }\r\n    ],\r\n    \"name\": \"rectangle\"\r\n  }\r\n}\r\n\r\n37.229517,\r\n        \"longitude\": -80.423819"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n            \"latitude\": 37.224463,\r\n            \"longitude\": -80.424912\r\n          },\r\n          {\r\n            \"latitude\": 37.224463,\r\n            \"longitude\": -80.423912\r\n          },\r\n          {\r\n            \"latitude\": 37.223463,\r\n            \"longitude\": -80.423912\r\n          },\r\n          {\r\n            \"latitude\": 37.223463,\r\n            \"longitude\": -80.424912\r\n          }\r\n    ],\r\n    \"name\": \"rectangle\"\r\n  }\r\n}\r\n"
 						},
 						"description": ""
 					},
