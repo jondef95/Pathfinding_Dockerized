@@ -1808,7 +1808,7 @@
 						}
 					],
 					"request": {
-						"url": "{{url}}/id={{uid2}}/",
+						"url": "{{url}}/id={{uid1}}/",
 						"method": "DELETE",
 						"header": [
 							{
