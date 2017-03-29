@@ -464,8 +464,8 @@
 									"",
 									"//check for default obstacle",
 									"tests[\"Default obstacle id\"] = jsonData.obstacles[0].obstacle_id === 0;",
-									"tests[\"Default obstacle latitude\"] = jsonData[0].obstacle_info.coordinates[0].latitude === 0;",
-									"tests[\"Default obstacle longitude\"] = jsonData[0].obstacle_info.coordinates[0].longitude === 0;",
+									"tests[\"Default obstacle latitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].latitude === 0;",
+									"tests[\"Default obstacle longitude\"] = jsonData.obstacles[0].obstacle_info.coordinates[0].longitude === 0;",
 									"",
 									"//check version",
 									"tests[\"Check version\"] = jsonData.version == environment.version1;",
@@ -518,7 +518,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 404\"] = responseCode.code === 404;",
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
@@ -596,7 +596,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 20,\r\n        \"longitude\": 20\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 20,\r\n        \"longitude\": 20\r\n      },\r\n      {\r\n        \"latitude\": 30,\r\n        \"longitude\": 20\r\n      },\r\n      {\r\n        \"latitude\": 30,\r\n        \"longitude\": 30\r\n      },\r\n      {\r\n        \"latitude\": 20,\r\n        \"longitude\": 30\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -641,7 +641,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 80,\r\n        \"longitude\": 80\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 80,\r\n        \"longitude\": 80\r\n      },\r\n      {\r\n        \"latitude\": 90,\r\n        \"longitude\": 80\r\n      },\r\n      {\r\n        \"latitude\": 90,\r\n        \"longitude\": 90\r\n      },\r\n      {\r\n        \"latitude\": 80,\r\n        \"longitude\": 90\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -659,7 +659,7 @@
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/problem+json\";",
+									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";",
 									""
 								]
 							}
@@ -702,9 +702,9 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"//check for default obstacle",
-									"tests[\"Check obstacle id\"] = jsonData[1].obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData[1].obstacle_info.coordinates[0].latitude === 20;",
-									"tests[\"Check obstacle longitude\"] = jsonData[1].obstacle_info.coordinates[0].longitude === 20;",
+									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info.coordinates[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info.coordinates[0].longitude === 20;",
 									"",
 									"//make sure only one obstacle is in the list",
 									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
@@ -739,9 +739,9 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"Check obstacle id\"] = jsonData.obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacle_info.coordinates[0].latitude === 20;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacle_info.coordinates[0].longitude === 20;"
+									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info.coordinates[0].latitude === 20;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info.coordinates[0].longitude === 20;"
 								]
 							}
 						}
@@ -837,42 +837,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 30,\r\n        \"longitude\": 30\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Update an existing obstacle1 bad version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 409\"] = responseCode.code === 409;",
-									"",
-									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
-									"",
-									"tests[\"Content-Type is in a json format\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json\";"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{url}}/id={{uid1}}/Obstacles/obstacle_id={{obj1}}",
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 50\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 50\r\n      },\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 50\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -907,7 +872,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 40\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj2}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 50\r\n      },\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 50\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -942,7 +907,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 60,\r\n        \"longitude\": 60\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"obstacle_id\": {{obj1}},\r\n  \"obstacle_info\": {\r\n    \"coordinates\": [\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 40\r\n      },\r\n      {\r\n        \"latitude\": 50,\r\n        \"longitude\": 50\r\n      },\r\n      {\r\n        \"latitude\": 40,\r\n        \"longitude\": 50\r\n      }\r\n    ],\r\n    \"shape\": \"rectangle\"\r\n  }\r\n}"
 						},
 						"description": ""
 					},
@@ -966,9 +931,9 @@
 									"",
 									"",
 									"//check updates",
-									"tests[\"Check obstacle id\"] = jsonData.obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData.obstacle_info.coordinates[0].latitude == 30;",
-									"tests[\"Check obstacle longitude\"] = jsonData.obstacle_info.coordinates[0].longitude == 30;",
+									"tests[\"Check obstacle id\"] = jsonData.obstacle.obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacle.obstacle_info.coordinates[0].latitude == 40;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacle.obstacle_info.coordinates[0].longitude == 40;",
 									""
 								]
 							}
@@ -1014,12 +979,12 @@
 									"var jsonData = JSON.parse(responseBody);",
 									"",
 									"//check for default obstacle",
-									"tests[\"Check obstacle id\"] = jsonData[1].obstacle_id == environment.obj1;",
-									"tests[\"Check obstacle latitude\"] = jsonData[1].obstacle_info.coordinates[0].latitude === 30;",
-									"tests[\"Check obstacle longitude\"] = jsonData[1].obstacle_info.coordinates[0].longitude === 30;",
+									"tests[\"Check obstacle id\"] = jsonData.obstacles[1].obstacle_id == environment.obj1;",
+									"tests[\"Check obstacle latitude\"] = jsonData.obstacles[1].obstacle_info.coordinates[0].latitude === 40;",
+									"tests[\"Check obstacle longitude\"] = jsonData.obstacles[1].obstacle_info.coordinates[0].longitude === 40;",
 									"",
 									"//make sure only one obstacle is in the list",
-									"tests[\"Two Obstacles exist\"] = jsonData.length == 2;",
+									"tests[\"Two Obstacles exist\"] = jsonData.obstacles.length == 2;",
 									""
 								]
 							}
