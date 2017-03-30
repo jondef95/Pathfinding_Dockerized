@@ -1,4 +1,4 @@
-# Prerequisits:
+# Prerequisites:
 storage team server
 to install:
 
