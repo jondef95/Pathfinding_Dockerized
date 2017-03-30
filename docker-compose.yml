@@ -3,37 +3,8 @@ services:
     pathfinding:
         build: .
         image: "jth2279/pathfinding_dockerized"
+        container_name: pathfinder
         expose:
-          - 8083
+          - 8082
         ports:
-          - "8083:8083"  
-        networks:
-          back-end:
-            aliases:
-              - pathfinding
-          front-end:
-            aliases:
-              - pathfinding
-        links:
-          - storage
-    
-    storage:
-        build: .
-        image: "jth2279/dockerstorage_web"
-        container_name: storage_container
-        expose:
-          - 8083
-        networks:
-          back-end:
-            aliases:
-              - storage
-          static-network:
-            ipv4_address: 172.15.128.2
-networks:
-    front-end:
-    back-end:
-    static-network:
-      ipam:
-        config:
-          - subnet: 172.15.0.0/16
-            #ip_range: 172.28.5.0/24
+          - "8082:8082"
