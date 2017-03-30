@@ -18,7 +18,7 @@ Currently point to global storage on AWS
 For Ubuntu:
 
 ```
-"./install-docker.sh" on Ubuntu
+"./install-docker.sh"
 ```
 
 OR
