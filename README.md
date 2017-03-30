@@ -7,13 +7,13 @@ git clone https://github.com/ldevr2t1/docker_storage_worker.git
 docker-compose up -d
 ```
 
-#Optional:
+# Optional:
 
 Change storage URL in FLASK controllers to storage container
 
 Currently point to global storage on AWS
 
-#Usage:
+# Usage:
 
 For Ubuntu:
 
@@ -37,7 +37,7 @@ Start the swarm (MUST BE ON A MANAGER SERVER:
 "sudo ./pathfinding_service.sh"
 ```
 
-#Testing
+# Testing
 
 Change "value" in External_Test_Docker/postmanDockerBuild/assignment5.postman_environment.json to the servers IP address
 
