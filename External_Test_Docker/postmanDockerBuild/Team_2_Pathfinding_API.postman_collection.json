@@ -524,7 +524,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"tests[\"Status code is 404\"] = responseCode.code === 404;",
 									"",
 									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
 									"",
